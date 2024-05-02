@@ -1,1 +1,21 @@
-spring.application.name=wayne
+spring:
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      # Elasticsearch 클러스터의 주소
+      url: http://localhost:9200
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/elasticsearch
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1111
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
