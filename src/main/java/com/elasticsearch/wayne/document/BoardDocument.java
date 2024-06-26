@@ -1,26 +1,29 @@
-package com.elasticsearch.wayne;
+package com.elasticsearch.wayne.document;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.elasticsearch.wayne.entity.Board;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 /*
     Document는 Elasticsearch에 저장되는 데이터의 최소 단위이다.
     검색했을 때 보여야 할 데이터를 정의한다.
  */
 
+@Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 /*
     indexName은 Elasticsearch에 저장될 인덱스의 이름을 정의한다.
     index는 Elasticsearch에 저장될 데이터의 설정을 정의한다.
     Board에 대한 정보를 바탕으로 BoardDocument를 생성한다.
  */
-@Document(indexName = "boards")
+@Document(indexName = "boards") // document의 논리적인 집합 = index
 @Setting(replicas = 0)
 /*
     BoardDocument는 Elasticsearch에 저장될 데이터의 설정을 정의한다.
@@ -33,18 +36,17 @@ public class BoardDocument {
     @Id
     private String id;
 
-    @Field(type = FieldType.Long, index = false, docValues = false)
-    private Long BoardId;
-
-    @Field(type = FieldType.Text, analyzer = "nori")
     private String title;
 
-    @Field(type = FieldType.Object)
-    private List<TagDocument> tags = new ArrayList<>();
+    private String content;
 
-    @Field(type = FieldType.Object)
-    @WriteOnlyProperty
-    private List<BoardSearchKeyDocument> searchKeys = new ArrayList<>();
+    //board에 대한 정보를 바탕으로 boardDocument를 생성
+//    public static BoardDocument from(Board board) {
+//        return BoardDocument.builder()
+//                .BoardId(board.getId())
+//                .title(board.getTitle())
+//                .build();
+//    }
 }
 
 /*
